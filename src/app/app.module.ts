@@ -18,7 +18,7 @@ import { HelperUtils } from './utils/helper';
 import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { SaleService } from './services/sale.service';
-import { UserServicea } from './services/user.service';
+import { UserService } from './services/user.service';
 
 //NGX-LOADER
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -81,7 +81,7 @@ registerLocaleData(ptBr);
         { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
         ProductService,
         SaleService,
-        UserServicea,
+        UserService,
         AuthenticationService,
         LocalStorageUtils,
         HelperUtils,

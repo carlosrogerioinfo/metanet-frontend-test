@@ -6,7 +6,7 @@ import { SaleResponse } from 'src/app/models/sale';
 import { UserResponse } from 'src/app/models/user';
 import { ProductService } from 'src/app/services/product.service';
 import { SaleService } from 'src/app/services/sale.service';
-import { UserServicea } from 'src/app/services/user.service';
+import { UserService } from 'src/app/services/user.service';
 import { HelperUtils } from 'src/app/utils/helper';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
@@ -23,7 +23,7 @@ export class DashboardComponent implements OnInit {
     constructor(
         public layoutService: LayoutService,
         private productsService: ProductService,
-        private userService: UserServicea,
+        private userService: UserService,
         private saleService: SaleService,
         private storage: LocalStorageUtils,
         private helper: HelperUtils)
