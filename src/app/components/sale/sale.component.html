@@ -1,0 +1,129 @@
+<div class="grid">
+    <div class="col-12">
+
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <span style="font-weight: bold; text-transform: capitalize;">{{saleIdentifier}}</span>
+
+                    </div>
+                </ng-template>
+
+                <ng-template pTemplate="right">
+                    <!-- <button pButton pRipple label="Nova Venda" icon="pi pi-plus" class="p-button-success mr-2" (click)="onOpenNew()"></button> -->
+                    <button pButton pRipple label="Cancelar Venda" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteSelectedSales(sale.id)"></button>
+                </ng-template>
+            </p-toolbar>
+
+        </div>
+
+        <br/>
+
+
+        <p-panel header="Produto [ Para pesquisar o produto, digite o código de barras e tecle enter ]">
+
+            <div class="formgrid grid">
+                <div class="field col-3">
+                    <label for="barCode" style="margin-right: 5%;">Código de barras</label>
+                    <input type="text" pInputText id="barCode" (keydown)="onKeyDown($event)"/>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.id">Código de barras é obrigatório.</small>
+                </div>
+
+                <div class="field col-3">
+                    <label for="description" style="margin-right: 5%;">Descrição</label>
+                    <input type="text" pInputText id="description" [(ngModel)]="product.description" style="background-color: cadetblue; font-weight: bold; color: aliceblue;" disabled="true"/>
+                </div>
+
+                <div class="field col-3">
+                    <label for="price" style="margin-right: 5%;">Preço</label>
+                    <p-inputNumber inputId="price" [(ngModel)]="product.price" class="input-number-short"
+                    [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
+                </div>
+
+                <div class="field col-3">
+                    <label for="quantity" style="margin-right: 5%;">Quantidade</label>
+                    <p-inputNumber inputId="quantity" [(ngModel)]="product.price" class="input-number-short"
+                    [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
+                </div>
+
+
+            </div>
+
+            <div class="formgrid grid">
+            </div>
+
+        </p-panel>
+
+
+        <!-- MODAL PRODUCT : CRUD
+
+        <p-dialog [(visible)]="saleDialog" [style]="{width: '900px'}" header="Produto" [modal]="true" class="p-fluid">
+            <ng-template pTemplate="content">
+
+                <div class="formgrid grid">
+                    <div class="field col-3">
+                        <label for="name">Código de barras</label>
+                        <input type="text" pInputText id="name" [(ngModel)]="sale.barCode" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.barCode}"/>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.barCode">Código de barras é obrigatório.</small>
+                    </div>
+                    <div class="field col-7">
+                        <label for="description">Descrição</label>
+                        <input type="text" [maxlength]="150" pInputText id="description" [(ngModel)]="sale.description" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.description}"/>
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.description">Unidade é obrigatório.</small>
+                    </div>
+                    <div class="field col-2">
+                        <label for="price">Preço</label>
+                        <p-inputNumber inputId="price" [(ngModel)]="sale.price" [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.price}"
+                        [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
+
+                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.price">Preço é obrigatório.</small>
+                    </div>
+                </div>
+
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="onHideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="onSaveSale()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteSaleDialog" header="Confirmação" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="sale">Tem certeza que deseja remover <b>{{sale.description}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteSaleDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="onConfirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <p-dialog [(visible)]="deleteSalesDialog" header="Confirmação" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza que deseja remover os produtos selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteSalesDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="onConfirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+        -->
+
+        <!-- MODAL PRODUCT FIM : CRUD -->
+
+        <!-- CAMPOS OBRIGATORIOS -->
+        <p-dialog [(visible)]="requiredFields" header="Atenção" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Todos os campos obrigatórios (destacados em negrito) devem ser preenchidos!</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Ok" (click)="onConfirmRequiredFields()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>
