@@ -8,6 +8,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { SaleService } from 'src/app/services/sale.service';
 import { UserServicea } from 'src/app/services/user.service';
 import { HelperUtils } from 'src/app/utils/helper';
+import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
 @Component({
     templateUrl: './dashboard.component.html',
@@ -24,6 +25,7 @@ export class DashboardComponent implements OnInit {
         private productsService: ProductService,
         private userService: UserServicea,
         private saleService: SaleService,
+        private storage: LocalStorageUtils,
         private helper: HelperUtils)
     {
 
@@ -77,5 +79,21 @@ export class DashboardComponent implements OnInit {
 
         this.helper.verifyErrorRedirection(fail.error.errors);
     }
+
+    getUserInfo(){
+
+        this.userService.get()
+        .subscribe(
+            success => {this.onSuccessUserInfo(success)},
+            fail => {this.onFail(fail)}
+        );
+    }
+
+    onSuccessUserInfo(response: any){
+        this.errors = [];
+        this.storage.saveUserInfoDataLocalStorage(response);
+
+    }
+
 
 }

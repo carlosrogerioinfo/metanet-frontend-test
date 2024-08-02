@@ -64,26 +64,11 @@ export class LoginComponent {
         }
     }
 
-    getUserInfo(){
-
-        this.userService.get()
-        .subscribe(
-            success => {this.onSuccessUser(success)},
-            fail => {this.onFail(fail)}
-        );
-    }
-
     onSuccess(response: any){
-        this.getUserInfo();
+        //this.getUserInfo();
         this.errors = [];
         this.storage.saveUserTokenDataLocalStorage(response);
         this.router.navigate(['/']);
-    }
-
-    onSuccessUser(response: any){
-        this.errors = [];
-        this.storage.saveUserInfoDataLocalStorage(response);
-
     }
 
     onFail(fail: any){
