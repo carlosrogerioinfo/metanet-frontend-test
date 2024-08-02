@@ -59,6 +59,8 @@ export class DashboardComponent implements OnInit {
             success => {this.onSuccessUser(success)},
             fail => {this.onFail(fail)}
         );
+
+
     }
 
     onSuccessProduct(response: any){

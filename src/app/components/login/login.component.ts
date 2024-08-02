@@ -65,7 +65,6 @@ export class LoginComponent {
     }
 
     onSuccess(response: any){
-        //this.getUserInfo();
         this.errors = [];
         this.storage.saveUserTokenDataLocalStorage(response);
         this.router.navigate(['/']);

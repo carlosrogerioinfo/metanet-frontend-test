@@ -17,11 +17,6 @@ export class LocalStorageUtils {
         return localStorage.getItem('storageinfo.token');
     }
 
-    public saveAllUserDataLocalStorage(response: any) {
-        this.saveUserToken(response.token);
-        this.saveUser(response);
-    }
-
     public saveUserTokenDataLocalStorage(response: any) {
         this.saveUserToken(response.token);
     }
