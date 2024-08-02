@@ -77,12 +77,13 @@ export class LoginComponent {
         this.getUserInfo();
         this.errors = [];
         this.storage.saveUserTokenDataLocalStorage(response);
+        this.router.navigate(['/']);
     }
 
     onSuccessUser(response: any){
         this.errors = [];
         this.storage.saveUserInfoDataLocalStorage(response);
-        this.router.navigate(['/']);
+
     }
 
     onFail(fail: any){
