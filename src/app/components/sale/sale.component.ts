@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ProductResponse } from 'src/app/models/product';
-import { SaleRequestAdd, SaleRequestDelete, SaleResponse } from 'src/app/models/sale';
+import { SaleRequestAdd, SaleRequestDelete, SaleRequestUpdate, SaleResponse } from 'src/app/models/sale';
 import { SaleItemRequest, SaleItemResponse } from 'src/app/models/sale-item';
 import { ProductService } from 'src/app/services/product.service';
 import { SaleItemService } from 'src/app/services/sale-item.service';
@@ -21,6 +21,8 @@ import { LocalStorageUtils } from 'src/app/utils/localstorage';
 })
 export class SaleComponent implements OnInit {
 
+    @ViewChild('inputBarCode') inputBarCodeRef: ElementRef;
+
     errors: any[] = [];
     requiredFields: boolean = false;
 
@@ -34,6 +36,8 @@ export class SaleComponent implements OnInit {
     saleItens: SaleItemResponse[] = [];
     saleItem: SaleItemResponse = {};
     saleQuantity: number = 0;
+    totalItens: number = 0;
+    barCode: String = '';
 
     saleRequestAdd: SaleRequestAdd = {};
 
@@ -108,35 +112,38 @@ export class SaleComponent implements OnInit {
         this.sale = response;
     }
 
-    postSale(request: SaleRequestAdd){
-        this.salesService.post(request)
-            .subscribe(
-            success => {
-                this.errors = [];
-                this.sale = success;
-            },
-            fail => {this.onFail(fail)}
-        );
+    onCloseSale() {
+
+        this.putSale();
+        this.sale = {};
     }
 
-    putSale(request: SaleResponse){
+    putSale(){
+
+        const request: SaleRequestUpdate = {
+            id: this.sale.id,
+            userpaymentFormat: 1
+        };
+
+
         this.salesService.put(request)
         .subscribe(
             success => {
                 this.errors = [];
-                this.sale = success;
-                this.messageService.add({ severity: 'success', summary: 'Alteração', detail: 'Produto alterado', life: 3000 });
+                this.sale = {};
+                this.saleItens = [];
+                this.totalItens = 0;
                 this.initializeSale();
             },
             fail => {this.onFail(fail)}
         );
     }
 
-    onKeyDown(event: KeyboardEvent) {
+    onKeyDownFindProduct(event: KeyboardEvent) {
         if (event.key === 'Enter') {
 
             const input = event.target as HTMLInputElement;
-
+            this.barCode = input.value;
             this.productService.getByBarCode(input.value)
             .subscribe(
                 success => {
@@ -146,12 +153,12 @@ export class SaleComponent implements OnInit {
                 fail => {this.onFail(fail)}
             );
 
-            //   // Limpa o input (opcional)
-            //   (event.target as HTMLInputElement).value = '';
+            (event.target as HTMLInputElement).value = '';
+
         }
       }
 
-      onKeyDownSaleSave(event: KeyboardEvent) {
+      onKeyDownSaleSave(event: KeyboardEvent, nextInput: ElementRef) {
         if (event.key === 'Enter') {
 
             const input = event.target as HTMLInputElement;
@@ -168,61 +175,48 @@ export class SaleComponent implements OnInit {
                 success => {
                     this.errors = [];
                     this.saleItem = success;
+                    this.product = {};
+
+                    //Após salvar o item, carrega todos os itens da venda
+                    this.salesItemService.get(this.sale.id)
+                    .subscribe(
+                        success => {this.onSuccessSaleItem(success)},
+                        fail => {this.onFail(fail)}
+                    );
+
                 },
                 fail => {this.onFail(fail)}
             );
 
-            this.salesItemService.get(this.sale.id)
-            .subscribe(
-                success => {this.onSuccessSaleItem(success)},
-                fail => {this.onFail(fail)}
-            );
+            (event.target as HTMLInputElement).value = '';
+            this.barCode = '';
+            nextInput.nativeElement.focus();
         }
       }
 
       onSuccessSaleItem(response: any){
         this.errors = [];
         this.saleItens = response;
+
+        const totalSum = this.saleItens.reduce((sum, item) => sum + item.total, 0);
+        this.totalItens = totalSum;
+        console.log(totalSum);
+        //this.totalItens = this.saleItens.reduce((sum, item) => sum + item.total, 0);
     }
 
     // MODALS OPERATIONS
-
-    onEditProduct(product: ProductResponse) {
-
-        this.product = { ...product };
-        this.productDialog = true;
-    }
 
     onDeleteProduct(product: ProductResponse) {
         this.deleteProductDialog = true;
         this.product = { ...product };
     }
 
-
-
-
     onHideDialog() {
         this.saleDialog = false;
         this.submitted = false;
     }
 
-    onOpenNew() {
-        this.sale = {};
-        this.submitted = false;
-        this.saleDialog = true;
-    }
-
-    onEditSale(sale: SaleResponse) {
-
-        this.sale = { ...sale };
-        this.saleDialog = true;
-    }
-
-    onDeleteSale(sale: SaleResponse) {
-        this.deleteSaleDialog = true;
-        this.sale = { ...sale };
-    }
-
+    //CANCELA A VENDA INICIALIZADA
     onDeleteSelectedSales(id: any) {
         const request: SaleRequestDelete = {
             id: id
@@ -249,53 +243,10 @@ export class SaleComponent implements OnInit {
         this.sale = {};
     }
 
-    // onConfirmDeleteSelected() {
-    //     this.deleteSalesDialog = false;
-
-    //     this.selectedSales.forEach(element => {
-    //         this.deleteBatchSale(element);
-    //     });
-
-    //     this.selectedSales = [];
-    // }
-
-    onSaveSale() {
-        this.submitted = this.onValidate(this.saleRequestAdd);//true;
-
-        if (this.submitted){
-
-            if (this.saleRequestAdd.userId?.trim()) {
-                this.postSale(this.saleRequestAdd);
-                // if (this.sale.id) {
-                //     this.sales[this.findIndexById(this.sale.id)] = this.sale;
-
-                //     this.putSale(this.sale);
-                // } else {
-                //     this.postSale(this.sale);
-
-                this.saleDialog = false;
-                this.sale = {};
-            }
-        }
-        else
-        {
-            this.requiredFields = true;
-        }
-    }
-
     onFail(fail: any){
         this.errors = fail.error.errors;
         this.errors.forEach((error, index) => {
             this.helper.showNotification('Warning', error.message);
-        });
-
-        this.helper.verifyErrorRedirection(fail.error.errors);
-    }
-
-    onFailBatch(fail: any){
-        this.errors = fail.error.errors;
-        this.errors.forEach((error, index) => {
-            this.helper.showNotification('Warning', 'Alguns ou todos os itens selecionados para exclusão podem estar sendo usados');
         });
 
         this.helper.verifyErrorRedirection(fail.error.errors);
@@ -330,7 +281,4 @@ export class SaleComponent implements OnInit {
         return true;
     }
 
-    onConfirmRequiredFields() {
-        this.requiredFields = false;
-    }
 }
