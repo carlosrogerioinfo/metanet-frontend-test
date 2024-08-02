@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
 import { LoginRequest } from 'src/app/models/login';
 import { AuthenticationService } from 'src/app/services/authentication.service';
-import { UserService } from 'src/app/services/user.service';
 import { HelperUtils } from 'src/app/utils/helper';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
@@ -39,7 +38,6 @@ export class LoginComponent {
     constructor(
         public layoutService: LayoutService,
         private authentication: AuthenticationService,
-        private userService: UserService,
         private storage: LocalStorageUtils,
         private router: Router,
         private helper: HelperUtils) {

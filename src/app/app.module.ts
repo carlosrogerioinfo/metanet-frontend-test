@@ -20,6 +20,7 @@ import { registerLocaleData } from '@angular/common';
 import { SaleService } from './services/sale.service';
 import { UserService } from './services/user.service';
 import { StatisticService } from './services/statistic.service';
+import { SaleItemService } from './services/sale-item.service';
 
 //NGX-LOADER
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -82,6 +83,7 @@ registerLocaleData(ptBr);
         { provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' },
         ProductService,
         SaleService,
+        SaleItemService,
         UserService,
         StatisticService,
         AuthenticationService,

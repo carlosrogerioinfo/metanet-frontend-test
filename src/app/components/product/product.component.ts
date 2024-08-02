@@ -51,7 +51,9 @@ export class ProductComponent implements OnInit {
     initializeProduct(){
         this.productsService.get()
         .subscribe(
-            success => {this.onSuccessProduct(success)},
+            success => {
+                this.onSuccessProduct(success)
+            },
             fail => {this.onFail(fail)}
         );
     }
