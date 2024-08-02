@@ -19,6 +19,7 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { SaleService } from './services/sale.service';
 import { UserService } from './services/user.service';
+import { StatisticService } from './services/statistic.service';
 
 //NGX-LOADER
 const ngxUiLoaderConfig: NgxUiLoaderConfig = {
@@ -82,6 +83,7 @@ registerLocaleData(ptBr);
         ProductService,
         SaleService,
         UserService,
+        StatisticService,
         AuthenticationService,
         LocalStorageUtils,
         HelperUtils,
