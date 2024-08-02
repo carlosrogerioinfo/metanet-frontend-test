@@ -10,7 +10,12 @@ import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
 @Component({
     templateUrl: './sale.component.html',
-    providers: [MessageService]
+    providers: [MessageService],
+    styles: [`
+        .align-right .ui-inputfield {
+            text-align: right;
+        }
+    `]
 })
 export class SaleComponent implements OnInit {
 
@@ -22,6 +27,7 @@ export class SaleComponent implements OnInit {
     sale: SaleResponse = {};
     product: ProductResponse = {};
     saleIdentifier: string;
+    selectedProducts: ProductResponse[] = []; //Para exclusão em lote
 
     saleRequestAdd: SaleRequestAdd = {};
     selectedSales: SaleResponse[] = [];

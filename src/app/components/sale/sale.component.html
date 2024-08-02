@@ -1,8 +1,9 @@
-<div class="grid">
-    <div class="col-12">
+<div class="grid p-fluid">
+	<div class="col-12 md:col-12">
 
-        <div class="card px-6 py-6">
-            <p-toast></p-toast>
+        <p-toast></p-toast>
+
+        <div class="card">
             <p-toolbar styleClass="mb-4">
                 <ng-template pTemplate="left">
                     <div class="my-2">
@@ -12,52 +13,112 @@
                 </ng-template>
 
                 <ng-template pTemplate="right">
-                    <!-- <button pButton pRipple label="Nova Venda" icon="pi pi-plus" class="p-button-success mr-2" (click)="onOpenNew()"></button> -->
                     <button pButton pRipple label="Cancelar Venda" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteSelectedSales(sale.id)"></button>
                 </ng-template>
             </p-toolbar>
-
         </div>
 
         <br/>
 
+		<div class="card">
+			<h6>Produto [ Para pesquisar o produto, digite o código de barras e tecle enter | efetuar venda informe a quantidade e tecle enter ]</h6>
+			<div class="grid formgrid">
+				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
+					<span class="p-input-icon-left">
+						<i class="pi pi-bars"></i>
+                        <input type="text" pInputText id="barCode" (keydown)="onKeyDown($event)" placeholder="Código de barras"/>
+					</span>
+				</div>
 
-        <p-panel header="Produto [ Para pesquisar o produto, digite o código de barras e tecle enter ]">
+				<div class="col-12 mb-2 lg:col-6 lg:mb-0">
+					<span class="p-input-icon-left">
+						<i class="pi pi-shopping-bag"></i>
+                        <input type="text" pInputText id="description" [(ngModel)]="product.description" disabled="true"/>
+					</span>
+				</div>
 
-            <div class="formgrid grid">
-                <div class="field col-3">
-                    <label for="barCode" style="margin-right: 5%;">Código de barras</label>
-                    <input type="text" pInputText id="barCode" (keydown)="onKeyDown($event)"/>
-                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.id">Código de barras é obrigatório.</small>
-                </div>
+				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
+					<span class="p-input-icon-left">
+						<!-- <i class="pi pi-money-bill"></i> -->
+                        <p-inputNumber inputId="price" [(ngModel)]="product.price" class="input-number-short"
+                            [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="2" locale="pt-BR" [disabled]="true">
+                        </p-inputNumber>
+					</span>
+				</div>
 
-                <div class="field col-3">
-                    <label for="description" style="margin-right: 5%;">Descrição</label>
-                    <input type="text" pInputText id="description" [(ngModel)]="product.description" style="background-color: cadetblue; font-weight: bold; color: aliceblue;" disabled="true"/>
-                </div>
+				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
+					<span class="p-input-icon-left">
+						<!-- <i class="pi pi-money-bill"></i> -->
+                        <p-inputNumber inputId="quantity" [(ngModel)]="product.price" class="input-number-short" placeholder="Qtd"
+                            [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2"
+                            [maxFractionDigits]="2" locale="pt-BR">
+                        </p-inputNumber>
+					</span>
+				</div>
+			</div>
 
-                <div class="field col-3">
-                    <label for="price" style="margin-right: 5%;">Preço</label>
-                    <p-inputNumber inputId="price" [(ngModel)]="product.price" class="input-number-short"
-                    [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
-                </div>
+		</div>
 
-                <div class="field col-3">
-                    <label for="quantity" style="margin-right: 5%;">Quantidade</label>
-                    <p-inputNumber inputId="quantity" [(ngModel)]="product.price" class="input-number-short"
-                    [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
-                </div>
+        <br/>
+
+		<div class="card">
+
+                <p-table #dt [value]="sales" [columns]="cols" responsiveLayout="scroll" [rows]="10" [globalFilterFields]="['barCode','description','price']"
+                [rows]="10" [paginator]="false" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Exibindo de {first} até {last} de {totalRecords} registros cadastrados"
+                [(selection)]="selectedProducts" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <!-- <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Itens</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Pesquisar..."  class="w-full sm:w-auto"/>
+                        </span>
+                    </div>
+                </ng-template> -->
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="barCode">Cód. barras <p-sortIcon field="barCode"></p-sortIcon></th>
+                        <th pSortableColumn="description">Descrição <p-sortIcon field="description"></p-sortIcon></th>
+                        <th pSortableColumn="price">Preço <p-sortIcon field="price"></p-sortIcon></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-product>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="product"></p-tableCheckbox>
+                        </td>
+                        <td style="width:20%; min-width:10rem;">
+                            <span class="p-column-title">Código de barras</span>
+                            {{product.barCode}}
+                        </td>
+                        <td style="width:70%; min-width:10rem;">
+                            <span class="p-column-title">Descrição</span>
+                            {{product.description}}
+                        </td>
+                        <td style="width:10%; min-width:10rem;">
+                            <span class="p-column-title">Preço</span>
+                            {{product.price | currency }}
+                        </td>
+                        <td>
+                            <div class="flex">
+                                <!-- <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-buttongrid-link-edit mr-2" (click)="onEditProduct(product)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-buttongrid-link-delete mr-2" (click)="onDeleteProduct(product)"></button> -->
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+
+		</div>
 
 
-            </div>
-
-            <div class="formgrid grid">
-            </div>
-
-        </p-panel>
-
-
-        <!-- MODAL PRODUCT : CRUD
+<!-- MODAL PRODUCT : CRUD
 
         <p-dialog [(visible)]="saleDialog" [style]="{width: '900px'}" header="Produto" [modal]="true" class="p-fluid">
             <ng-template pTemplate="content">
@@ -125,5 +186,7 @@
                 <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Ok" (click)="onConfirmRequiredFields()"></button>
             </ng-template>
         </p-dialog>
-    </div>
+
+
+	</div>
 </div>
