@@ -48,12 +48,17 @@ export class DashboardComponent implements OnInit {
             fail => {this.onFail(fail)}
         );
 
+        this.userService.get()
+        .subscribe(
+            success => {this.onSuccessUserInfo(success)},
+            fail => {this.onFail(fail)}
+        );
+
         this.userService.getAll()
         .subscribe(
             success => {this.onSuccessUser(success)},
             fail => {this.onFail(fail)}
         );
-
     }
 
     onSuccessProduct(response: any){
@@ -78,15 +83,6 @@ export class DashboardComponent implements OnInit {
         });
 
         this.helper.verifyErrorRedirection(fail.error.errors);
-    }
-
-    getUserInfo(){
-
-        this.userService.get()
-        .subscribe(
-            success => {this.onSuccessUserInfo(success)},
-            fail => {this.onFail(fail)}
-        );
     }
 
     onSuccessUserInfo(response: any){
