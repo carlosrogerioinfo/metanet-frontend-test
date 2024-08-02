@@ -3,14 +3,21 @@ import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { ProductResponse } from 'src/app/models/product';
 import { SaleRequestAdd, SaleRequestDelete, SaleResponse } from 'src/app/models/sale';
+import { SaleItemRequest, SaleItemResponse } from 'src/app/models/sale-item';
 import { ProductService } from 'src/app/services/product.service';
+import { SaleItemService } from 'src/app/services/sale-item.service';
 import { SaleService } from 'src/app/services/sale.service';
 import { HelperUtils } from 'src/app/utils/helper';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
 @Component({
     templateUrl: './sale.component.html',
-    providers: [MessageService]
+    providers: [MessageService],
+    styles: [`
+        .align-right .ui-inputfield {
+            text-align: right;
+        }
+    `]
 })
 export class SaleComponent implements OnInit {
 
@@ -23,13 +30,20 @@ export class SaleComponent implements OnInit {
     product: ProductResponse = {};
     saleIdentifier: string;
 
+    selectedSaleItens: SaleItemResponse[] = []; //Para exclusão em lote
+    saleItens: SaleItemResponse[] = [];
+    saleItem: SaleItemResponse = {};
+    saleQuantity: number = 0;
+
     saleRequestAdd: SaleRequestAdd = {};
-    selectedSales: SaleResponse[] = [];
 
     //MODAL
     saleDialog: boolean = false;
     deleteSaleDialog: boolean = false;
     deleteSalesDialog: boolean = false;
+
+    deleteProductDialog: boolean = false;
+    productDialog: boolean = false;
 
     //FORMS
     submitted: boolean = false;
@@ -38,6 +52,7 @@ export class SaleComponent implements OnInit {
 
     constructor(
         private salesService: SaleService,
+        private salesItemService: SaleItemService,
         private productService: ProductService,
         private messageService: MessageService,
         private helper: HelperUtils,
@@ -131,18 +146,60 @@ export class SaleComponent implements OnInit {
                 fail => {this.onFail(fail)}
             );
 
-        //     // Impede o comportamento padrão do Enter (se necessário)
-        //   event.preventDefault();
-
-        //   // Define a mensagem quando a tecla Enter é pressionada
-        //   this.message = `Você pressionou Enter! O valor é: ${(event.target as HTMLInputElement).value}`;
-
-        //   // Limpa o input (opcional)
-        //   (event.target as HTMLInputElement).value = '';
+            //   // Limpa o input (opcional)
+            //   (event.target as HTMLInputElement).value = '';
         }
       }
 
+      onKeyDownSaleSave(event: KeyboardEvent) {
+        if (event.key === 'Enter') {
+
+            const input = event.target as HTMLInputElement;
+
+            const request: SaleItemRequest = {
+                saleId: this.sale.id,
+                productId: this.product.id,
+                quantity: Number(input.value),
+                price: this.product.price
+            };
+
+            this.salesItemService.post(request)
+            .subscribe(
+                success => {
+                    this.errors = [];
+                    this.saleItem = success;
+                },
+                fail => {this.onFail(fail)}
+            );
+
+            this.salesItemService.get(this.sale.id)
+            .subscribe(
+                success => {this.onSuccessSaleItem(success)},
+                fail => {this.onFail(fail)}
+            );
+        }
+      }
+
+      onSuccessSaleItem(response: any){
+        this.errors = [];
+        this.saleItens = response;
+    }
+
     // MODALS OPERATIONS
+
+    onEditProduct(product: ProductResponse) {
+
+        this.product = { ...product };
+        this.productDialog = true;
+    }
+
+    onDeleteProduct(product: ProductResponse) {
+        this.deleteProductDialog = true;
+        this.product = { ...product };
+    }
+
+
+
 
     onHideDialog() {
         this.saleDialog = false;

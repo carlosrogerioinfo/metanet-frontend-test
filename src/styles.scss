@@ -243,3 +243,7 @@ $gutter: 1rem; //for primeflex grid system
 .input-number-short{
     width: 10%;
 }
+
+.align-right .ui-inputfield {
+    text-align: right;
+}

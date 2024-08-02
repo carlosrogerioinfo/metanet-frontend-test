@@ -1,4 +1,4 @@
-import { ProductResponse } from "./product";
+import { SaleItemResponse } from "./sale-item";
 
 export interface SaleRequestAdd {
     userId?:        string;
@@ -20,11 +20,4 @@ export interface SaleResponse {
     paymentFormat?: string;
     saleStatus?:    string;
     saleItems?:     SaleItemResponse[];
-}
-
-export interface SaleItemResponse {
-    id?:       string;
-    quantity?: number;
-    price?:    number;
-    product?:  ProductResponse;
 }
