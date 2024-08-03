@@ -107,7 +107,7 @@ export class SaleComponent implements OnInit {
             + response.id.toUpperCase()
             + " - DATA: "
             + new Date(response.saleDate).toLocaleDateString('pt-BR')
-            + new Date(response.saleDate).toLocaleTimeString('pt-BR');
+            + " " + new Date(response.saleDate).toLocaleTimeString('pt-BR');
 
         this.sale = response;
     }

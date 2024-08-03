@@ -15,6 +15,11 @@ export class DashboardComponent implements OnInit {
 
     statistic: StatisticResponse = {};
 
+    //chart
+    lineData: any;
+    lineData2: any;
+    lineOptions: any;
+
     constructor(
         public layoutService: LayoutService,
         private statisticService: StatisticService,
@@ -27,6 +32,51 @@ export class DashboardComponent implements OnInit {
 
     ngOnInit() {
         this.initialize();
+        this.initChart();
+    }
+
+    initChart() {
+
+        const documentStyle = getComputedStyle(document.documentElement);
+
+        this.lineData = {
+            labels: ['Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            datasets: [
+                {
+                    label: 'Vendas',
+                    data: [65, 59, 80, 81, 56, 55],
+                    fill: false,
+                    backgroundColor: documentStyle.getPropertyValue('--primary-500'),
+                    borderColor: documentStyle.getPropertyValue('--primary-500'),
+                    tension: .4
+                },
+                // {
+                //     label: 'Second Dataset',
+                //     data: [28, 48, 40, 19, 86, 27, 90],
+                //     fill: false,
+                //     backgroundColor: documentStyle.getPropertyValue('--primary-200'),
+                //     borderColor: documentStyle.getPropertyValue('--primary-200'),
+                //     tension: .4
+                // }
+            ]
+        };
+
+        this.lineData2 = {
+            labels: ['Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            datasets: [
+                {
+                    label: 'First Dataset',
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    fill: false,
+                    backgroundColor: documentStyle.getPropertyValue('--primary-500'),
+                    borderColor: documentStyle.getPropertyValue('--primary-500'),
+                    tension: .4
+                },
+            ]
+        };
+
+
+
     }
 
     initialize(){
