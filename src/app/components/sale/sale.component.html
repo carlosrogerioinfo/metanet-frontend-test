@@ -63,7 +63,7 @@
 
         <br/>
 
-		<div class="card">
+		<div class="card" *ngIf="saleItens.length > 0">
 
                 <p-table #dt [value]="saleItens" [columns]="cols" responsiveLayout="scroll" [rows]="10"
                 [rows]="10" [paginator]="false" [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"

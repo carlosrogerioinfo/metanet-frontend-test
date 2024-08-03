@@ -145,6 +145,40 @@ export class SaleComponent implements OnInit {
                 success => {
                     this.errors = [];
                     this.product = success;
+
+                    //depois de localizado adiciona o item
+
+                    const request: SaleItemRequest = {
+                        saleId: this.sale.id,
+                        productId: this.product.id,
+                        quantity: 1,
+                        price: this.product.price
+                    };
+
+                    this.salesItemService.post(request)
+                    .subscribe(
+                        success => {
+                            this.errors = [];
+                            this.saleItem = success;
+                            this.product = {};
+
+                            //Após salvar o item, carrega todos os itens da venda
+                            this.salesItemService.get(this.sale.id)
+                            .subscribe(
+                                success => {this.onSuccessSaleItem(success)},
+                                fail => {this.onFail(fail)}
+                            );
+
+                        },
+                        fail => {
+                            this.barCode = '';
+                            this.onFail(fail)
+                        }
+                    );
+
+                    this.barCode = '';
+
+
                 },
                 fail => {this.onFail(fail)}
             );
