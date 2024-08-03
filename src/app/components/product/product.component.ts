@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
-import { ProductResponse, Unity } from 'src/app/models/product';
+import { ProductResponse } from 'src/app/models/product';
 import { ProductService } from 'src/app/services/product.service';
-import { DropdownUtils } from 'src/app/utils/dropdown-utils';
 import { HelperUtils } from 'src/app/utils/helper';
 import { LocalStorageUtils } from 'src/app/utils/localstorage';
 
@@ -17,18 +16,14 @@ export class ProductComponent implements OnInit {
     requiredFields: boolean = false;
 
     //-----PRODUTOS
-    products: ProductResponse[] = []; //Listagem no grid
-    product: ProductResponse = {}; //alteração/edição/esclusão
-    selectedProducts: ProductResponse[] = []; //Para exclusão em lote
+    products: ProductResponse[] = [];
+    product: ProductResponse = {};
+    selectedProducts: ProductResponse[] = [];
 
     //MODAL
     productDialog: boolean = false;
     deleteProductDialog: boolean = false;
     deleteProductsDialog: boolean = false;
-
-    // //Dropdown
-    // dropDownUnities: Unity[];
-    // selectedUnity: Unity;
 
     //FORMS
     submitted: boolean = false;
@@ -41,7 +36,7 @@ export class ProductComponent implements OnInit {
         private helper: HelperUtils,
         private storage: LocalStorageUtils)
     {
-        //this.dropDownUnities = DropdownUtils.InitializeUnities();
+
     }
 
     ngOnInit() {
@@ -167,7 +162,7 @@ export class ProductComponent implements OnInit {
     }
 
     onSaveProduct() {
-        this.submitted = this.onValidate(this.product);//true;
+        this.submitted = this.onValidate(this.product);
 
         if (this.submitted){
 

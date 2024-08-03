@@ -16,9 +16,9 @@ export class SaleHistoryComponent implements OnInit {
     requiredFields: boolean = false;
 
     //-----VENDAS
-    sales: SaleResponse[] = []; //Listagem no grid
-    sale: SaleResponse = {}; //alteração/edição/esclusão
-    selectedSales: SaleResponse[] = []; //Para exclusão em lote
+    sales: SaleResponse[] = [];
+    sale: SaleResponse = {};
+    selectedSales: SaleResponse[] = [];
 
     //MODAL
     saleDialog: boolean = false;

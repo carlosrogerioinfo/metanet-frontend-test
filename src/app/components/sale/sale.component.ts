@@ -32,7 +32,7 @@ export class SaleComponent implements OnInit {
     product: ProductResponse = {};
     saleIdentifier: string;
 
-    selectedSaleItens: SaleItemResponse[] = []; //Para exclusão em lote
+    selectedSaleItens: SaleItemResponse[] = [];
     saleItens: SaleItemResponse[] = [];
     saleItem: SaleItemResponse = {};
     saleQuantity: number = 0;
@@ -196,8 +196,6 @@ export class SaleComponent implements OnInit {
 
         const totalSum = this.saleItens.reduce((sum, item) => sum + item.total, 0);
         this.totalItens = totalSum;
-        console.log(totalSum);
-        //this.totalItens = this.saleItens.reduce((sum, item) => sum + item.total, 0);
     }
 
     // MODALS OPERATIONS
@@ -234,7 +232,6 @@ export class SaleComponent implements OnInit {
 
     onConfirmDelete() {
 
-        //this.deleteSale(this.sale);
         this.deleteSaleDialog = false;
         this.sale = {};
     }

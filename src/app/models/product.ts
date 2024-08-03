@@ -4,8 +4,3 @@ export interface ProductResponse {
     description?: string
     price?: number
 }
-
-export interface Unity {
-    id?:            string;
-    name?:          string;
-}
