@@ -14,7 +14,7 @@
 
                 <ng-template pTemplate="right">
                     <button pButton pRipple label="Finalizar" icon="pi pi-save" class="p-button-success mr-2" (click)="onCloseSale()" [disabled]="saleItens.length == 0"></button>
-                    <button pButton pRipple label="Cancelar" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteSelectedSales(sale.id)"></button>
+                    <button pButton pRipple label="Cancelar" icon="pi pi-trash" class="p-button-danger" (click)="onDeleteSelectedSales(sale.id)" [disabled]="saleItens.length == 0"></button>
                 </ng-template>
             </p-toolbar>
         </div>
