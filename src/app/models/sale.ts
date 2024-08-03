@@ -6,7 +6,7 @@ export interface SaleRequestAdd {
 
 export interface SaleRequestUpdate {
     id?:                string;
-    userpaymentFormat?: number;
+    paymentFormat?: number;
 }
 
 export interface SaleRequestDelete {

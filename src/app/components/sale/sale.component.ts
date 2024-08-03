@@ -118,7 +118,7 @@ export class SaleComponent implements OnInit {
 
         const request: SaleRequestUpdate = {
             id: this.sale.id,
-            userpaymentFormat: 1
+            paymentFormat: 1
         };
 
 
