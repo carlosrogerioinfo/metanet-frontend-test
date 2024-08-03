@@ -70,13 +70,9 @@ export class SaleComponent implements OnInit {
     }
 
     ngOnDestroy() {
+        if (this.sale.saleStatus == "Aberta"){
 
-        if (this.sale.saleStatus == "Open"){
-            const request: SaleRequestDelete = {
-                id: this.sale.id
-            };
-
-            this.salesService.delete(request)
+            this.salesService.deleteOpened()
             .subscribe(
                 success => {
                     this.errors = [];

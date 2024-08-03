@@ -61,4 +61,16 @@ export class SaleService extends BaseService {
         return response;
     }
 
+    deleteOpened() : Observable<SaleResponse>{
+
+        let response = this.http
+        .delete(this.UrlService + `/sale/delete-open`, this.getHeaderAuthJson(this.token))
+            .pipe(
+                map(this.extractData),
+                catchError(this.serviceError)
+            );
+
+        return response;
+    }
+
 }

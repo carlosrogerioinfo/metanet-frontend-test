@@ -11,6 +11,7 @@ const routes: Routes = [
         { path: '', loadChildren: () => import('./components/base/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate:[AuthenticationGuardService] },
         { path: 'product', loadChildren: () => import('./components/product/product.module').then(m => m.ProductModule), canActivate:[AuthenticationGuardService] },
         { path: 'sale', loadChildren: () => import('./components/sale/sale.module').then(m => m.SaleModule), canActivate:[AuthenticationGuardService] },
+        { path: 'sale-history', loadChildren: () => import('./components/sale-history/sale-history.module').then(m => m.SaleHistoryModule), canActivate:[AuthenticationGuardService] },
     ],
   },
   { path: 'login', loadChildren: () => import('./components/login/login.module').then(m => m.LoginModule) },
