@@ -24,7 +24,7 @@
 		<div class="card">
 			<h6>Produto [ Para pesquisar o produto, digite o código de barras e tecle enter | efetuar venda informe a quantidade e tecle enter ]</h6>
 			<div class="grid formgrid">
-				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
+				<div class="col-12 mb-2 lg:col-4 lg:mb-0">
 					<span class="p-input-icon-left">
 						<i class="pi pi-bars"></i>
                         <input type="text" pInputText id="barCode" (keydown)="onKeyDownFindProduct($event)" #inputBarCode placeholder="Código de barras" value="{{barCode}}"/>
@@ -40,7 +40,6 @@
 
 				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
 					<span class="p-input-icon-left">
-						<!-- <i class="pi pi-money-bill"></i> -->
                         <p-inputNumber inputId="price" [(ngModel)]="product.price" class="input-number-short"
                             [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2"
                             [maxFractionDigits]="2" locale="pt-BR" [disabled]="true">
@@ -48,7 +47,7 @@
 					</span>
 				</div>
 
-				<div class="col-12 mb-2 lg:col-2 lg:mb-0">
+				<div class="col-12 mb-2 lg:col-2 lg:mb-0" style="display: none;">
 					<span class="p-input-icon-left">
 
                         <p-inputNumber inputId="quantity" [(ngModel)]="saleQuantity" class="input-number-short" placeholder="Qtd"

@@ -60,70 +60,9 @@
 
         <!-- MODAL PRODUCT : CRUD -->
 
-        <p-dialog [(visible)]="saleDialog" [style]="{width: '900px'}" header="Produto" [modal]="true" class="p-fluid">
-            <!-- <ng-template pTemplate="content">
+        <p-dialog [(visible)]="saleDialog" [style]="{width: '900px'}" header="Itens da venda" [modal]="true" class="p-fluid">
 
-                <div class="formgrid grid">
-                    <div class="field col-3">
-                        <label for="name">Código de barras</label>
-                        <input type="text" pInputText id="name" [(ngModel)]="sale.saleDate" required autofocus [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.saleDate}"/>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.saleDate">Código de barras é obrigatório.</small>
-                    </div>
-                    <div class="field col-7">
-                        <label for="saleStatus">Descrição</label>
-                        <input type="text" [maxlength]="150" pInputText id="saleStatus" [(ngModel)]="sale.saleStatus" required [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.saleStatus}"/>
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.saleStatus">Unidade é obrigatório.</small>
-                    </div>
-                    <div class="field col-2">
-                        <label for="totalValue">Preço</label>
-                        <p-inputNumber inputId="totalValue" [(ngModel)]="sale.totalValue" [ngClass]="{'ng-invalid ng-dirty' : submitted && !sale.totalValue}"
-                        [min]="0" [max]="50000" [showButtons]="false" [step]="1" mode="decimal" [minFractionDigits]="2" [maxFractionDigits]="2" locale="pt-BR"></p-inputNumber>
-
-                        <small class="ng-dirty ng-invalid" *ngIf="submitted && !sale.totalValue">Preço é obrigatório.</small>
-                    </div>
-                </div>
-
-            </ng-template>
-
-            <ng-template pTemplate="footer">
-                <button pButton pRipple label="Fechar" icon="pi pi-times" class="p-button-text" (click)="onHideDialog()"></button>
-                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text" (click)="onSaveSale()"></button>
-            </ng-template>
         </p-dialog>
 
-        <p-dialog [(visible)]="deleteSaleDialog" header="Confirmação" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span *ngIf="sale">Tem certeza que deseja remover <b>{{sale.saleStatus}}</b>?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteSaleDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="onConfirmDelete()"></button>
-            </ng-template>
-        </p-dialog>
-
-        <p-dialog [(visible)]="deleteSalesDialog" header="Confirmação" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Tem certeza que deseja remover os produtos selecionados?</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não" (click)="deleteSalesDialog = false"></button>
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim" (click)="onConfirmDeleteSelected()"></button>
-            </ng-template> -->
-        </p-dialog>
-
-        <!-- MODAL PRODUCT FIM : CRUD -->
-
-        <!-- CAMPOS OBRIGATORIOS -->
-        <p-dialog [(visible)]="requiredFields" header="Atenção" [modal]="true" [style]="{width:'450px'}">
-            <div class="flex align-items-center justify-content-center">
-                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
-                <span>Todos os campos obrigatórios (destacados em negrito) devem ser preenchidos!</span>
-            </div>
-            <ng-template pTemplate="footer">
-                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Ok" (click)="onConfirmRequiredFields()"></button>
-            </ng-template>
-        </p-dialog>
     </div>
 </div>

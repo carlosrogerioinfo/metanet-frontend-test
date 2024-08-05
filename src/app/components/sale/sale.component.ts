@@ -161,7 +161,7 @@ export class SaleComponent implements OnInit {
                             this.errors = [];
                             this.saleItem = success;
                             this.product = {};
-
+                            this.barCode = '';
                             //Após salvar o item, carrega todos os itens da venda
                             this.salesItemService.get(this.sale.id)
                             .subscribe(
@@ -171,16 +171,16 @@ export class SaleComponent implements OnInit {
 
                         },
                         fail => {
-                            this.barCode = '';
+
                             this.onFail(fail)
                         }
                     );
 
-                    this.barCode = '';
-
-
                 },
-                fail => {this.onFail(fail)}
+                fail => {
+                    this.barCode = '';
+                    this.onFail(fail)
+                }
             );
 
             (event.target as HTMLInputElement).value = '';
